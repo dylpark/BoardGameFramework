@@ -5,7 +5,7 @@ namespace BoardGameFramework
     /// <summary>
     /// Numerical-specific player with odd/even number constraints
     /// </summary>
-    public class NumericalPlayer : HumanPlayer
+    public class NumericalPlayer : HumanPlayer, INumberedPlayer
     {
         public bool UsesOddNumbers { get; private set; }
         

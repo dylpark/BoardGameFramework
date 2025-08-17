@@ -100,7 +100,7 @@ namespace BoardGameFramework
             var numMove = move as NumericalMove;
             if (numMove == null) return false;
             
-            // Check if position is valid and empty
+            // Check position validity
             if (!board.IsValidPosition(numMove.Row, numMove.Col))
             {
                 Console.WriteLine("Invalid position!");
@@ -120,12 +120,19 @@ namespace BoardGameFramework
                 return false;
             }
             
-            // Check if number is valid for player
-            var numPlayer = players[currentPlayerIndex] as NumericalPlayer;
-            if (!gameRules.IsValidNumberForPlayer(numMove.Number, numPlayer.UsesOddNumbers))
+            // Use interface to get player's number constraint
+            var numberedPlayer = players[currentPlayerIndex] as INumberedPlayer;
+            if (numberedPlayer == null)
             {
-                string expected = numPlayer.UsesOddNumbers ? "odd (1,3,5,7,9)" : "even (2,4,6,8)";
-                Console.WriteLine($"Invalid number! You must use {expected} numbers.");
+                Console.WriteLine("ERROR: Current player doesn't implement INumberedPlayer!");
+                return false;
+            }
+            
+            // Validate the number for the player
+            if (!gameRules.IsValidNumberForPlayer(numMove.Number, numberedPlayer.UsesOddNumbers))
+            {
+                string expected = numberedPlayer.UsesOddNumbers ? "odd (1,3,5,7,9)" : "even (2,4,6,8)";
+                Console.WriteLine($"Invalid number! Player must use {expected} numbers.");
                 return false;
             }
             
@@ -208,29 +215,33 @@ namespace BoardGameFramework
                         return;
                     }
                     
-                    move = currentPlayer.ParseMove(input, board);
+                    // Parse move for human player
+                    if (currentPlayer is NumericalPlayer numPlayer)
+                    {
+                        move = numPlayer.ParseMove(input, board);
+                    }
                 }
                 
-                if (move != null && ValidateMove(move))
+                if (move != null)
                 {
-                    ExecuteMove(move);
-                    CheckWinCondition();
-                    validMove = true;
+                    try
+                    {
+                        if (ValidateMove(move))
+                        {
+                            ExecuteMove(move);
+                            CheckWinCondition();
+                            validMove = true;
+                        }
+                        else if (!(currentPlayer is NumericalComputerPlayer))
+                        {
+                            Console.WriteLine("Invalid move! Try again.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
                 }
-                else if (!(currentPlayer is NumericalComputerPlayer))
-                {
-                    Console.WriteLine("Invalid move! Try again.");
-                }
-            }
-        }
-        
-        protected override void ExecuteMove(Move move)
-        {
-            base.ExecuteMove(move);
-            var numMove = move as NumericalMove;
-            if (numMove != null)
-            {
-                usedNumbers.Add(numMove.Number);
             }
         }
         

@@ -24,7 +24,7 @@ namespace BoardGameFramework
     /// <summary>
     /// Computer player specifically for Numerical Tic-Tac-Toe
     /// </summary>
-    public class NumericalComputerPlayer : ComputerPlayer
+    public class NumericalComputerPlayer : ComputerPlayer, INumberedPlayer
     {
         public bool UsesOddNumbers { get; private set; }
         
@@ -36,8 +36,7 @@ namespace BoardGameFramework
         
         public override Move ParseMove(string input, Board board)
         {
-            // This won't be called - logic is in NumericalTicTacToeGame.ProcessPlayerTurn
-            return null;
+            return null; // Logic handled in ProcessPlayerTurn
         }
     }
 }
