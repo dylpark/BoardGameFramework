@@ -29,7 +29,6 @@ namespace BoardGameFramework
             return new NumericalTicTacToeHelpSystem();
         }
         
-        // Template Method implementations
         protected override void InitializeGame()
         {
             board = CreateBoard();
@@ -41,20 +40,57 @@ namespace BoardGameFramework
             gameOver = false;
             winner = null;
             
-            // Create players
-            Console.Write("Enter Player 1 name (odd numbers 1,3,5,7,9): ");
-            string p1Name = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(p1Name)) p1Name = "Player 1";
+            // Ask for game mode
+            Console.WriteLine("\nSelect game mode:");
+            Console.WriteLine("1. Human vs Human");
+            Console.WriteLine("2. Human vs Computer");
+            Console.Write("Choice: ");
+            string modeChoice = Console.ReadLine();
             
-            Console.Write("Enter Player 2 name (even numbers 2,4,6,8): ");
-            string p2Name = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(p2Name)) p2Name = "Player 2";
-            
-            players = new Player[]
+            if (modeChoice == "2")
             {
-                CreatePlayer(p1Name, true),
-                CreatePlayer(p2Name, false)
-            };
+                // Human vs Computer
+                Console.Write("Enter your name: ");
+                string humanName = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(humanName)) humanName = "Player";
+                
+                Console.Write("Do you want to go first? (y/n): ");
+                bool humanFirst = Console.ReadLine().ToLower() == "y";
+                
+                if (humanFirst)
+                {
+                    players = new Player[]
+                    {
+                        new NumericalPlayer(humanName, true), // Human uses odd
+                        new NumericalComputerPlayer("Computer", false) // Computer uses even
+                    };
+                }
+                else
+                {
+                    players = new Player[]
+                    {
+                        new NumericalComputerPlayer("Computer", true), // Computer uses odd
+                        new NumericalPlayer(humanName, false) // Human uses even
+                    };
+                }
+            }
+            else
+            {
+                // Human vs Human (default)
+                Console.Write("Enter Player 1 name (odd numbers): ");
+                string p1Name = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(p1Name)) p1Name = "Player 1";
+                
+                Console.Write("Enter Player 2 name (even numbers): ");
+                string p2Name = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(p2Name)) p2Name = "Player 2";
+                
+                players = new Player[]
+                {
+                    CreatePlayer(p1Name, true),
+                    CreatePlayer(p2Name, false)
+                };
+            }
             
             currentPlayerIndex = 0;
         }
@@ -95,12 +131,107 @@ namespace BoardGameFramework
             
             return true;
         }
+
+        protected override void ProcessPlayerTurn()
+        {
+            Player currentPlayer = players[currentPlayerIndex];
+            bool validMove = false;
+            
+            while (!validMove)
+            {
+                Move move = null;
+                
+                // Check if computer player
+                if (currentPlayer is NumericalComputerPlayer computerPlayer)
+                {
+                    // Computer player logic
+                    Console.WriteLine($"{computerPlayer.Name} is thinking...");
+                    System.Threading.Thread.Sleep(1000);
+                    
+                    // Generate a random valid move
+                    List<int> availableNumbers = new List<int>();
+                    for (int i = 1; i <= 9; i++)
+                    {
+                        if (!usedNumbers.Contains(i))
+                        {
+                            bool isOdd = (i % 2 == 1);
+                            if (isOdd == computerPlayer.UsesOddNumbers)
+                            {
+                                availableNumbers.Add(i);
+                            }
+                        }
+                    }
+                    
+                    List<(int row, int col)> emptyPositions = new List<(int, int)>();
+                    for (int row = 0; row < 3; row++)
+                    {
+                        for (int col = 0; col < 3; col++)
+                        {
+                            if (board.IsEmptyPosition(row, col))
+                            {
+                                emptyPositions.Add((row, col));
+                            }
+                        }
+                    }
+                    
+                    if (availableNumbers.Count > 0 && emptyPositions.Count > 0)
+                    {
+                        Random random = new Random();
+                        var position = emptyPositions[random.Next(emptyPositions.Count)];
+                        var number = availableNumbers[random.Next(availableNumbers.Count)];
+                        
+                        Console.WriteLine($"{computerPlayer.Name} plays {number} at ({position.row}, {position.col})");
+                        
+                        move = new NumericalMove(position.row, position.col, number, computerPlayer);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{computerPlayer.Name} has no valid moves!");
+                        gameOver = true;
+                        return;
+                    }
+                }
+                else
+                {
+                    // Human player
+                    Console.Write($"{currentPlayer.Name}'s turn: ");
+                    string input = Console.ReadLine();
+                    
+                    // Handle special commands
+                    if (HandleCommand(input))
+                    {
+                        if (!gameOver)
+                        {
+                            DisplayBoard();
+                            continue;
+                        }
+                        return;
+                    }
+                    
+                    move = currentPlayer.ParseMove(input, board);
+                }
+                
+                if (move != null && ValidateMove(move))
+                {
+                    ExecuteMove(move);
+                    CheckWinCondition();
+                    validMove = true;
+                }
+                else if (!(currentPlayer is NumericalComputerPlayer))
+                {
+                    Console.WriteLine("Invalid move! Try again.");
+                }
+            }
+        }
         
         protected override void ExecuteMove(Move move)
         {
             base.ExecuteMove(move);
             var numMove = move as NumericalMove;
-            usedNumbers.Add(numMove.Number);
+            if (numMove != null)
+            {
+                usedNumbers.Add(numMove.Number);
+            }
         }
         
         protected override void CheckWinCondition()
@@ -114,6 +245,11 @@ namespace BoardGameFramework
             {
                 gameOver = true;
             }
+        }
+
+        public HashSet<int> GetUsedNumbers()
+        {
+            return new HashSet<int>(usedNumbers);
         }
         
         protected override bool IsGameOver()
