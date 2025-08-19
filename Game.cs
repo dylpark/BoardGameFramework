@@ -76,17 +76,15 @@ namespace BoardGameFramework
                 Console.Write($"{currentPlayer.Name}'s turn: ");
                 string? input = Console.ReadLine();
 
-                // Handle null input
                 if (string.IsNullOrWhiteSpace(input))
                 {
                     Console.WriteLine("Please enter a valid command or move.");
                     continue;
                 }
 
-                // Handle special commands
                 if (HandleCommand(input))
                 {
-                    if (!gameOver) // Command might end game
+                    if (!gameOver)
                     {
                         DisplayBoard();
                         continue;
@@ -94,7 +92,6 @@ namespace BoardGameFramework
                     return;
                 }
 
-                // Try to parse as move
                 Move? move = currentPlayer.ParseMove(input, board);
                 if (move != null && ValidateMove(move))
                 {

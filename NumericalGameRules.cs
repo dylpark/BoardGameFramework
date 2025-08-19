@@ -2,7 +2,7 @@
 {
     public class NumericalGameRules
     {
-        public bool IsValidNumberForPlayer(int number, bool isOddPlayer)
+        public static bool IsValidNumberForPlayer(int number, bool isOddPlayer)
         {
             if (number < 1 || number > 9) return false;
             

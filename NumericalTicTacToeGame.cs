@@ -121,7 +121,7 @@
             }
 
             // Validate the number for the player
-            if (!gameRules.IsValidNumberForPlayer(numMove.Number, numberedPlayer.UsesOddNumbers))
+            if (!NumericalGameRules.IsValidNumberForPlayer(numMove.Number, numberedPlayer.UsesOddNumbers))
             {
                 string expected = numberedPlayer.UsesOddNumbers ? "odd (1,3,5,7,9)" : "even (2,4,6,8)";
                 Console.WriteLine($"Invalid number! Player must use {expected} numbers.");

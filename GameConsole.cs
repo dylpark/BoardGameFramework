@@ -39,7 +39,6 @@
                     currentGame = factory.InitializeNewGame();
                     currentGame.PlayGame();
 
-                    // After game ends, ask if they want to play again
                     Console.Write("\nPlay again? (y/n): ");
                     string? playAgain = Console.ReadLine();
                     if (!string.Equals(playAgain, "y", StringComparison.OrdinalIgnoreCase))

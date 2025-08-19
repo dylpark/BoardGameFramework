@@ -11,7 +11,6 @@ namespace BoardGameFramework
 
         public override Move? ParseMove(string input, Board board)
         {
-            // Computer doesn't parse input - it generates moves
             System.Threading.Thread.Sleep(1000); // Thinking delay
             return null; // Will be overridden by NumericalComputerPlayer
         }
