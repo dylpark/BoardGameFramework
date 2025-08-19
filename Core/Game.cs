@@ -18,11 +18,15 @@ namespace BoardGameFramework.Core
         protected HelpSystem helpSystem = null!;
         protected bool gameOver;
         protected Player? winner;
+        protected bool isLoadedGame = false;
 
         // Template Method - defines the invariant algorithm
         public void PlayGame()
         {
-            InitializeGame();
+            if (!isLoadedGame)
+            {
+                InitializeGame();
+            }
             DisplayWelcome();
 
             while (!IsGameOver())
@@ -48,8 +52,8 @@ namespace BoardGameFramework.Core
         protected abstract void InitializeGame();
         protected abstract bool ValidateMove(Move move);
         protected abstract void CheckWinCondition();
-        protected abstract bool IsGameOver();
-        protected abstract string GetGameName();
+        public abstract bool IsGameOver();
+        public abstract string GetGameName();
 
         // Common concrete methods - shared by all games
         protected virtual void DisplayWelcome()
@@ -191,13 +195,21 @@ namespace BoardGameFramework.Core
         {
             try
             {
+                InitializeForLoad();
+                
                 gameSaver.Load(this, board, moveHistory, filename);
+                isLoadedGame = true; // Mark as loaded to skip initialization
                 Console.WriteLine($"Game loaded from {filename}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed to load game: {ex.Message}");
             }
+        }
+        
+        protected virtual void InitializeForLoad()
+        {
+            InitializeGame();
         }
 
         public virtual void UndoMove()
@@ -231,6 +243,13 @@ namespace BoardGameFramework.Core
         }
 
         protected abstract bool HasWinner();
-        protected abstract Player GetWinner();
+        public abstract Player GetWinner();
+        
+        // Methods for save/load functionality
+        public Player[] GetPlayers() => players;
+        public int GetCurrentPlayerIndex() => currentPlayerIndex;
+        public void SetCurrentPlayerIndex(int index) => currentPlayerIndex = index;
+        public void SetGameOver(bool isGameOver) => gameOver = isGameOver;
+        public void SetWinner(Player? gameWinner) => winner = gameWinner;
     }
 }

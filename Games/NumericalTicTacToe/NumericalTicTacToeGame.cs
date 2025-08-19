@@ -261,7 +261,7 @@ namespace BoardGameFramework.Games.NumericalTicTacToe
             return [.. usedNumbers];
         }
 
-        protected override bool IsGameOver()
+        public override bool IsGameOver()
         {
             return gameOver;
         }
@@ -271,12 +271,12 @@ namespace BoardGameFramework.Games.NumericalTicTacToe
             return winner != null;
         }
 
-        protected override Player GetWinner()
+        public override Player GetWinner()
         {
             return winner!;
         }
 
-        protected override string GetGameName()
+        public override string GetGameName()
         {
             return "Numerical Tic-Tac-Toe";
         }
@@ -309,6 +309,34 @@ namespace BoardGameFramework.Games.NumericalTicTacToe
             {
                 Console.WriteLine("No moves to undo.");
             }
+        }
+        
+        // Method for save/load functionality
+        public void RestoreUsedNumbers(List<int> numbers)
+        {
+            usedNumbers.Clear();
+            foreach (int number in numbers)
+            {
+                usedNumbers.Add(number);
+            }
+        }
+        
+        protected override void InitializeForLoad()
+        {
+            board = CreateBoard();
+            helpSystem = CreateHelpSystem();
+            gameRules = new NumericalGameRules();
+            moveHistory = new MoveHistory();
+            gameSaver = new GameSaver();
+            usedNumbers = [];
+            gameOver = false;
+            winner = null;
+            
+            players = [
+                new NumericalPlayer("Player1", true),
+                new NumericalPlayer("Player2", false)
+            ];
+            currentPlayerIndex = 0;
         }
     }
 }

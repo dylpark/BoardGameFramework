@@ -57,5 +57,9 @@ namespace BoardGameFramework.Services
             history.Clear();
             redoStack.Clear();
         }
+        
+        // Methods for save/load functionality
+        public IEnumerable<Move> GetHistory() => history.Reverse();
+        public IEnumerable<Move> GetRedoHistory() => redoStack.Reverse();
     }
 }
