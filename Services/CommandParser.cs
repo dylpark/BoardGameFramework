@@ -1,6 +1,9 @@
 ﻿using System;
+using BoardGameFramework.Core;
+using BoardGameFramework.Players;
+using BoardGameFramework.Games.NumericalTicTacToe;
 
-namespace BoardGameFramework
+namespace BoardGameFramework.Services
 {
     public class CommandParser
     {

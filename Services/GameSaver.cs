@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Text.Json;
+using BoardGameFramework.Core;
 
-namespace BoardGameFramework
+namespace BoardGameFramework.Services
 {
     public class GameSaver
     {

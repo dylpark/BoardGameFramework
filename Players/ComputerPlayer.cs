@@ -1,4 +1,7 @@
-namespace BoardGameFramework
+using BoardGameFramework.Core;
+using BoardGameFramework.Interfaces;
+
+namespace BoardGameFramework.Players
 {
     public class ComputerPlayer : Player
     {

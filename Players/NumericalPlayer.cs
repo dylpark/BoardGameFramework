@@ -1,4 +1,8 @@
-namespace BoardGameFramework
+using BoardGameFramework.Core;
+using BoardGameFramework.Interfaces;
+using BoardGameFramework.Services;
+
+namespace BoardGameFramework.Players
 {
     /// <summary>
     /// Numerical-specific player with odd/even number constraints

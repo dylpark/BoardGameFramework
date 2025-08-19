@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoardGameFramework
+namespace BoardGameFramework.Services
 {
     /// <summary>
     /// Abstract HelpSystem - Addresses feedback:

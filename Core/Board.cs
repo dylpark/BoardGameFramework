@@ -1,6 +1,7 @@
 ﻿using System;
+using BoardGameFramework.Games.NumericalTicTacToe;
 
-namespace BoardGameFramework
+namespace BoardGameFramework.Core
 {
     public class Board
     {

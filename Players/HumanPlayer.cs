@@ -1,4 +1,7 @@
-namespace BoardGameFramework
+using BoardGameFramework.Core;
+using BoardGameFramework.Services;
+
+namespace BoardGameFramework.Players
 {
     public class HumanPlayer : Player
     {

@@ -1,4 +1,7 @@
-namespace BoardGameFramework
+using BoardGameFramework.Core;
+using BoardGameFramework.Players;
+
+namespace BoardGameFramework.Games.NumericalTicTacToe
 {
     public class NumericalMove : Move
     {

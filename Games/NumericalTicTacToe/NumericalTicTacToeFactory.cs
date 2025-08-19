@@ -1,4 +1,6 @@
-namespace BoardGameFramework
+using BoardGameFramework.Core;
+
+namespace BoardGameFramework.Games.NumericalTicTacToe
 {
     /// <summary>
     /// Concrete creator in Factory Method pattern

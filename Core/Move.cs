@@ -1,4 +1,6 @@
-namespace BoardGameFramework
+using BoardGameFramework.Players;
+
+namespace BoardGameFramework.Core
 {
     public abstract class Move
     {

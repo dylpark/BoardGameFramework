@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using BoardGameFramework.Core;
 
-namespace BoardGameFramework
+namespace BoardGameFramework.Services
 {
     public class MoveHistory
     {

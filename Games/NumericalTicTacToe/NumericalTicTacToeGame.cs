@@ -1,4 +1,10 @@
-﻿namespace BoardGameFramework
+﻿using System.Collections.Generic;
+using BoardGameFramework.Core;
+using BoardGameFramework.Players;
+using BoardGameFramework.Services;
+using BoardGameFramework.Interfaces;
+
+namespace BoardGameFramework.Games.NumericalTicTacToe
 {
     /// <summary>
     /// Concrete implementation of Template Method pattern

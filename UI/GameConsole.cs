@@ -1,4 +1,9 @@
-﻿namespace BoardGameFramework
+﻿using System;
+using System.Collections.Generic;
+using BoardGameFramework.Core;
+using BoardGameFramework.Games.NumericalTicTacToe;
+
+namespace BoardGameFramework.UI
 {
     public class GameConsole
     {

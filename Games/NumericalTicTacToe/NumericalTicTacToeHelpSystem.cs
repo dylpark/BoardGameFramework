@@ -1,6 +1,7 @@
 using System;
+using BoardGameFramework.Services;
 
-namespace BoardGameFramework
+namespace BoardGameFramework.Games.NumericalTicTacToe
 {
     /// <summary>
     /// Concrete HelpSystem for Numerical Tic-Tac-Toe

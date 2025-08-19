@@ -1,6 +1,8 @@
 ﻿using System;
+using BoardGameFramework.Players;
+using BoardGameFramework.Services;
 
-namespace BoardGameFramework
+namespace BoardGameFramework.Core
 {
     /// <summary>
     /// TEMPLATE METHOD PATTERN - Abstract base class defining game algorithm

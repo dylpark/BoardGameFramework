@@ -1,4 +1,6 @@
-﻿namespace BoardGameFramework
+﻿using BoardGameFramework.Core;
+
+namespace BoardGameFramework.Games.NumericalTicTacToe
 {
     public class NumericalGameRules
     {

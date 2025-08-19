@@ -1,4 +1,6 @@
-﻿namespace BoardGameFramework
+﻿using BoardGameFramework.Core;
+
+namespace BoardGameFramework.Players
 {
     /// <summary>
     /// Abstract Player base class - part of original design

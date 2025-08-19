@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoardGameFramework
+namespace BoardGameFramework.Core
 {
     /// <summary>
     /// FACTORY METHOD PATTERN - Abstract creator

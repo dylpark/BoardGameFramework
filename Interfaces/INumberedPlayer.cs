@@ -1,4 +1,4 @@
-namespace BoardGameFramework
+namespace BoardGameFramework.Interfaces
 {
     public interface INumberedPlayer
     {
