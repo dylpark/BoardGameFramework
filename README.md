@@ -122,7 +122,7 @@ BoardGameFramework/
 │       ├── NumericalTicTacToeGame.cs      # Game logic
 │       ├── NumericalTicTacToeFactory.cs   # Factory implementation
 │       ├── NumericalMove.cs               # Move implementation
-│       ├── NumericalGameRules.cs          # Game rules
+│       ├── NumericalGameRules.cs          # Game rules and win conditions
 │       └── NumericalTicTacToeHelpSystem.cs # Help system
 ├── Players/                      # Player implementations
 │   ├── Player.cs                 # Abstract player base
@@ -134,7 +134,7 @@ BoardGameFramework/
 │   ├── GameSaver.cs             # Save/load functionality
 │   ├── MoveHistory.cs           # Undo/redo system
 │   ├── HelpSystem.cs            # Abstract help system
-│   └── CommandParser.cs         # Command parsing utilities
+│   └── CommandParser.cs         # Move parsing and command utilities
 ├── UI/                          # User interface
 │   └── GameConsole.cs           # Console-based UI
 ├── Interfaces/                  # Shared interfaces
@@ -165,6 +165,7 @@ BoardGameFramework/
 - **`MoveHistory`**: Implements undo/redo functionality using stacks
 - **`GameSaver`**: Handles complete game state persistence with JSON serialization
 - **`HelpSystem`**: Provides contextual help and game rules
+- **`CommandParser`**: Parses user input and creates appropriate move objects
 - **`GameState`**: Serializable representation of complete game state
 
 ## 🔧 Technical Details
@@ -321,7 +322,7 @@ This Board Game Framework represents a **production-quality implementation** fea
 
 ---
 
-**Author**: Assignment 2 - IFQ563  
+**Author**: Dylan Park - Assignment 2 - IFQ563  
 **Framework Version**: 1.0 (Production Ready)  
 **Last Updated**: August 2025  
 **Status**: ✅ Complete with Advanced Features
