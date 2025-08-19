@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BoardGameFramework
+﻿namespace BoardGameFramework
 {
     public class GameConsole
     {
-        private Dictionary<string, GameFactory> gameFactories;
-        private Game currentGame;
-        
+        private readonly Dictionary<string, GameFactory> gameFactories = [];
+        private Game? currentGame;
+
         public GameConsole()
         {
-            gameFactories = new Dictionary<string, GameFactory>();
             RegisterGames();
         }
-        
+
         private void RegisterGames()
         {
             // Register available games
@@ -21,32 +17,32 @@ namespace BoardGameFramework
             // Future games would be added here
             // gameFactories.Add("2", new WildTicTacToeFactory());
         }
-        
+
         public void Run()
         {
             DisplayTitle();
-            
+
             while (true)
             {
                 DisplayMainMenu();
-                string choice = Console.ReadLine();
-                
-                if (choice.ToLower() == "q" || choice.ToLower() == "quit")
+                string? choice = Console.ReadLine();
+
+                if (string.Equals(choice, "q", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(choice, "quit", StringComparison.OrdinalIgnoreCase))
                 {
                     Console.WriteLine("Thanks for playing! Goodbye!");
                     break;
                 }
-                
-                if (gameFactories.ContainsKey(choice))
+
+                if (choice != null && gameFactories.TryGetValue(choice, out GameFactory? factory))
                 {
-                    GameFactory factory = gameFactories[choice];
                     currentGame = factory.InitializeNewGame();
                     currentGame.PlayGame();
-                    
+
                     // After game ends, ask if they want to play again
                     Console.Write("\nPlay again? (y/n): ");
-                    string playAgain = Console.ReadLine();
-                    if (playAgain.ToLower() != "y")
+                    string? playAgain = Console.ReadLine();
+                    if (!string.Equals(playAgain, "y", StringComparison.OrdinalIgnoreCase))
                     {
                         Console.WriteLine("Thanks for playing! Goodbye!");
                         break;
@@ -58,8 +54,8 @@ namespace BoardGameFramework
                 }
             }
         }
-        
-        private void DisplayTitle()
+
+        private static void DisplayTitle()
         {
             Console.Clear();
             Console.WriteLine("╔════════════════════════════════════╗");
@@ -68,17 +64,17 @@ namespace BoardGameFramework
             Console.WriteLine("╚════════════════════════════════════╝");
             Console.WriteLine();
         }
-        
+
         private void DisplayMainMenu()
         {
             Console.WriteLine("\n===== MAIN MENU =====");
             Console.WriteLine("Select a game:");
-            
+
             foreach (var kvp in gameFactories)
             {
                 Console.WriteLine($"  {kvp.Key}. {kvp.Value.GetGameName()}");
             }
-            
+
             Console.WriteLine("  Q. Quit");
             Console.Write("\nYour choice: ");
         }

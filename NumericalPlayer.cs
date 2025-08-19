@@ -1,5 +1,3 @@
-using System;
-
 namespace BoardGameFramework
 {
     /// <summary>
@@ -15,7 +13,7 @@ namespace BoardGameFramework
             commandParser = new CommandParser();
         }
         
-        public override Move ParseMove(string input, Board board)
+        public override Move? ParseMove(string input, Board board)
         {
             return commandParser.ParseNumericalMove(input, this);
         }

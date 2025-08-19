@@ -19,7 +19,7 @@ namespace BoardGameFramework
             redoStack.Clear();
         }
         
-        public Move Undo()
+        public Move? Undo()
         {
             if (CanUndo())
             {
@@ -30,7 +30,7 @@ namespace BoardGameFramework
             return null;
         }
         
-        public Move Redo()
+        public Move? Redo()
         {
             if (CanRedo())
             {

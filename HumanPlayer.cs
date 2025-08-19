@@ -1,5 +1,3 @@
-using System;
-
 namespace BoardGameFramework
 {
     public class HumanPlayer : Player
@@ -11,9 +9,9 @@ namespace BoardGameFramework
             commandParser = new CommandParser();
         }
         
-        public override Move ParseMove(string input, Board board)
+        public override Move? ParseMove(string input, Board board)
         {
-            return commandParser.ParseMove(input, this);
+            return CommandParser.ParseMove(input, this);
         }
     }
 }

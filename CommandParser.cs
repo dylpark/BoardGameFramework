@@ -4,28 +4,29 @@ namespace BoardGameFramework
 {
     public class CommandParser
     {
-        public Move ParseMove(string input, Player player)
+        public static Move? ParseMove(string input, Player player)
         {
-            // Generic move parsing - can be overridden
+            // Generic move parsing
             return null;
         }
         
-        public NumericalMove ParseNumericalMove(string input, Player player)
+        public NumericalMove? ParseNumericalMove(string input, Player player)
         {
             try
             {
                 string[] parts = input.Trim().Split(' ');
                 
                 if (parts.Length != 3)
-                {
                     return null;
+                
+                if (int.TryParse(parts[0], out int row) && 
+                    int.TryParse(parts[1], out int col) && 
+                    int.TryParse(parts[2], out int number))
+                {
+                    return new NumericalMove(row, col, number, player);
                 }
                 
-                int row = int.Parse(parts[0]);
-                int col = int.Parse(parts[1]);
-                int number = int.Parse(parts[2]);
-                
-                return new NumericalMove(row, col, number, player);
+                return null;
             }
             catch
             {

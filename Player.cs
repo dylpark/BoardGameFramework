@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BoardGameFramework
+﻿namespace BoardGameFramework
 {
     /// <summary>
     /// Abstract Player base class - part of original design
@@ -14,6 +12,6 @@ namespace BoardGameFramework
             Name = name;
         }
         
-        public abstract Move ParseMove(string input, Board board);
+        public abstract Move? ParseMove(string input, Board board);
     }
 }
