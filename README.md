@@ -137,8 +137,9 @@ BoardGameFramework/
 
 #### Services
 - **`MoveHistory`**: Implements undo/redo functionality using stacks
-- **`GameSaver`**: Handles game state persistence (basic implementation)
+- **`GameSaver`**: Handles complete game state persistence with JSON serialization
 - **`HelpSystem`**: Provides contextual help and game rules
+- **`GameState`**: Serializable representation of complete game state
 
 ## 🔧 Technical Details
 
@@ -161,15 +162,43 @@ BoardGameFramework/
 - Consistent naming conventions
 - SOLID principles adherence
 
+### Save/Load System
+The framework includes a robust save/load system that preserves complete game state:
+
+#### Features
+- **Complete State Preservation**: Saves board state, player information, move history, and game-specific data
+- **JSON Format**: Human-readable save files with `.json` extension automatically added
+- **Cross-Session Compatibility**: Load games from previous sessions
+- **Undo/Redo History**: Preserves move history for continued undo/redo functionality
+- **Game Validation**: Ensures save files match the current game type
+
+#### Save File Structure
+```json
+{
+  "gameType": "Numerical Tic-Tac-Toe",
+  "saveDate": "2025-08-19T22:30:00.000Z",
+  "boardGrid": [[1,0,0],[6,0,0],[0,0,0]],
+  "players": [
+    {"name": "Dylan", "playerType": "NumericalPlayer", "usesOddNumbers": true}
+  ],
+  "moveHistory": [
+    {"row": 0, "col": 0, "playerName": "Dylan", "number": 1}
+  ],
+  "gameSpecificData": {"UsedNumbers": [1, 6]}
+}
+```
+
+#### Usage
+- `save filename` - Saves current game (automatically adds .json extension)
+- `load filename` - Loads saved game (tries .json extension if not found)
+- Save files are created in the application directory
+
 ## 🎯 Current Limitations & Future Enhancements
 
 ### Known Issues
-- **Save/Load System**: Currently only saves basic metadata, not full game state
 - **AI Intelligence**: Computer player uses basic random strategy
-- **File Extensions**: Save files don't automatically get extensions
 
 ### Planned Enhancements
-- Complete save/load implementation with JSON serialization
 - Advanced AI strategies (minimax algorithm)
 - Additional game variants (Wild Tic-Tac-Toe)
 - Network multiplayer support

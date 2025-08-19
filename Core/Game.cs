@@ -48,8 +48,8 @@ namespace BoardGameFramework.Core
         protected abstract void InitializeGame();
         protected abstract bool ValidateMove(Move move);
         protected abstract void CheckWinCondition();
-        protected abstract bool IsGameOver();
-        protected abstract string GetGameName();
+        public abstract bool IsGameOver();
+        public abstract string GetGameName();
 
         // Common concrete methods - shared by all games
         protected virtual void DisplayWelcome()
@@ -231,6 +231,13 @@ namespace BoardGameFramework.Core
         }
 
         protected abstract bool HasWinner();
-        protected abstract Player GetWinner();
+        public abstract Player GetWinner();
+        
+        // Methods for save/load functionality
+        public Player[] GetPlayers() => players;
+        public int GetCurrentPlayerIndex() => currentPlayerIndex;
+        public void SetCurrentPlayerIndex(int index) => currentPlayerIndex = index;
+        public void SetGameOver(bool isGameOver) => gameOver = isGameOver;
+        public void SetWinner(Player? gameWinner) => winner = gameWinner;
     }
 }
