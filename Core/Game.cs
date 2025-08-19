@@ -18,11 +18,15 @@ namespace BoardGameFramework.Core
         protected HelpSystem helpSystem = null!;
         protected bool gameOver;
         protected Player? winner;
+        protected bool isLoadedGame = false;
 
         // Template Method - defines the invariant algorithm
         public void PlayGame()
         {
-            InitializeGame();
+            if (!isLoadedGame)
+            {
+                InitializeGame();
+            }
             DisplayWelcome();
 
             while (!IsGameOver())
@@ -191,13 +195,21 @@ namespace BoardGameFramework.Core
         {
             try
             {
+                InitializeForLoad();
+                
                 gameSaver.Load(this, board, moveHistory, filename);
+                isLoadedGame = true; // Mark as loaded to skip initialization
                 Console.WriteLine($"Game loaded from {filename}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed to load game: {ex.Message}");
             }
+        }
+        
+        protected virtual void InitializeForLoad()
+        {
+            InitializeGame();
         }
 
         public virtual void UndoMove()

@@ -320,5 +320,23 @@ namespace BoardGameFramework.Games.NumericalTicTacToe
                 usedNumbers.Add(number);
             }
         }
+        
+        protected override void InitializeForLoad()
+        {
+            board = CreateBoard();
+            helpSystem = CreateHelpSystem();
+            gameRules = new NumericalGameRules();
+            moveHistory = new MoveHistory();
+            gameSaver = new GameSaver();
+            usedNumbers = [];
+            gameOver = false;
+            winner = null;
+            
+            players = [
+                new NumericalPlayer("Player1", true),
+                new NumericalPlayer("Player2", false)
+            ];
+            currentPlayerIndex = 0;
+        }
     }
 }

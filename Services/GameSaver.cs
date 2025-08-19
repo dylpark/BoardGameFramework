@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text.Json;
+using System.Linq;
+using System.Collections.Generic;
 using BoardGameFramework.Core;
 using BoardGameFramework.Players;
 using BoardGameFramework.Games.NumericalTicTacToe;
@@ -178,6 +180,11 @@ namespace BoardGameFramework.Services
                 throw new Exception($"Save file is for {gameState.GameType}, but current game is {game.GetGameName()}");
             }
             
+            if (game is NumericalTicTacToeGame numericalGame)
+            {
+                RestorePlayersForNumericalGame(numericalGame, gameState);
+            }
+            
             // Restore board state
             var savedGrid = gameState.BoardGrid;
             for (int row = 0; row < gameState.BoardRows; row++)
@@ -241,6 +248,27 @@ namespace BoardGameFramework.Services
                     }
                 }
             }
+        }
+        
+        private void RestorePlayersForNumericalGame(NumericalTicTacToeGame game, GameState gameState)
+        {
+            var players = new Player[gameState.Players.Count];
+            
+            for (int i = 0; i < gameState.Players.Count; i++)
+            {
+                var playerState = gameState.Players[i];
+                
+                players[i] = playerState.PlayerType switch
+                {
+                    "NumericalPlayer" => new NumericalPlayer(playerState.Name, playerState.UsesOddNumbers),
+                    "NumericalComputerPlayer" => new NumericalComputerPlayer(playerState.Name.Replace(" (Computer)", ""), playerState.UsesOddNumbers),
+                    _ => throw new Exception($"Unknown player type: {playerState.PlayerType}")
+                };
+            }
+            
+            // Use reflection to set the players array since it's protected
+            var playersField = typeof(Game).GetField("players", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            playersField?.SetValue(game, players);
         }
     }
 }
