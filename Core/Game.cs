@@ -59,9 +59,9 @@ namespace BoardGameFramework.Core
         protected virtual void DisplayWelcome()
         {
             Console.Clear();
-            Console.WriteLine("=====================================");
+            Console.WriteLine("=========================================");
             Console.WriteLine($"     Welcome to {GetGameName()}!");
-            Console.WriteLine("=====================================");
+            Console.WriteLine("=========================================");
             Console.WriteLine("Type 'help' for commands\n");
         }
 
