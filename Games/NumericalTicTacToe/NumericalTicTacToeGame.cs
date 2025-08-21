@@ -256,6 +256,15 @@ namespace BoardGameFramework.Games.NumericalTicTacToe
             }
         }
 
+        protected override void ExecuteMove(Move move)
+        {
+            base.ExecuteMove(move);
+            if (move is NumericalMove numMove)
+            {
+                usedNumbers.Add(numMove.Number);
+            }
+        }
+
         public HashSet<int> GetUsedNumbers()
         {
             return [.. usedNumbers];
